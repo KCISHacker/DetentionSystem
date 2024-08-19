@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DetentionSystemCore;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+﻿using DetentionSystemCore;
 
 namespace DetentionSystem;
 public partial class SettingsForm : Form
@@ -24,7 +13,7 @@ public partial class SettingsForm : Form
         richTextBox1.SelectAll();
         richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
         SelectText("THIS SOFTWARE IS FOR LEARNING REFERENCE ONLY, RATHER THAN ABUSING, OR YOU WILL TAKE THE RISK!");
-        richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, FontStyle.Underline | FontStyle.Italic);
+        richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont ?? richTextBox1.Font, FontStyle.Underline | FontStyle.Italic);
         richTextBox1.SelectionColor = Color.Red;
         var systemColor = ColorTranslator.FromHtml("#009fa8");
         SelectText("KCISHackers");
