@@ -99,9 +99,10 @@ partial class QueryControl
         // btn_filters
         // 
         btn_filters.Dock = DockStyle.Fill;
-        btn_filters.Location = new Point(253, 3);
+        btn_filters.Location = new Point(253, 0);
+        btn_filters.Margin = new Padding(3, 0, 3, 0);
         btn_filters.Name = "btn_filters";
-        btn_filters.Size = new Size(77, 30);
+        btn_filters.Size = new Size(77, 36);
         btn_filters.TabIndex = 1;
         btn_filters.Text = "Filters";
         btn_filters.UseVisualStyleBackColor = true;

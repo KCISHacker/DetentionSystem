@@ -78,7 +78,7 @@ public static class DetentionAPI
     public static Detention[] LoadDetentionsFromJson(string json, Filter filters, Action<int> setCurrentProgressMax, Action addCurrentProgress)
     {
         List<Detention> dts = [];
-        var detentions = Detention.LoadDetentionsFromJson(json);
+        var detentions = Detention.JsonToDetentions(json);
         setCurrentProgressMax.Invoke(detentions.Length);
         foreach (var dt in detentions)
         {

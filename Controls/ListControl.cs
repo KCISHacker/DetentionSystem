@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using DetentionSystem.Classes;
+using DetentionSystem.Forms;
 
 namespace DetentionSystem;
 public partial class ListControl : UserControl
@@ -30,10 +31,10 @@ public partial class ListControl : UserControl
         item.SubItems.Add(detention.CreateTime?.ToString("yyyy-MM-dd HH:mm:ss.fff"));
         item.SubItems.Add(detention.IP);
 
+        item.Tag = detention;
+
         listView1.Items.Add(item);
     }
-
-    public List<Detention> Detentions = new();
 
     public void ClearDetentions()
     {
@@ -51,7 +52,7 @@ public partial class ListControl : UserControl
             AddDetention(detention);
         }
         UpdateCountLabel();
-        Detentions = detentions.ToList();
+        // Detentions = detentions.ToList();
         UpdateJsonTextBox();
     }
 
@@ -73,7 +74,12 @@ public partial class ListControl : UserControl
 
     private void UpdateJsonTextBox()
     {
-        rtb_json.Text = Detention.DetentionsToJson([.. Detentions]);
+        var detentions = listView1.Items.Cast<ListViewItem>()
+            .Where(item => item.Tag is Detention)
+            .Select(item => (item.Tag as Detention) ?? new Detention())
+            .ToArray();
+
+        rtb_json.Text = Detention.DetentionsToJson(detentions);
     }
 
     public void SaveJsonFile()
@@ -91,7 +97,7 @@ public partial class ListControl : UserControl
             catch (Exception ex)
             {
                 // Handle the exception here
-                Console.WriteLine("An error occurred while saving the file: " + ex.Message);
+                MessageBox.Show("An error occurred while saving the file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
@@ -106,12 +112,30 @@ public partial class ListControl : UserControl
         indices.Sort();
         for (var i = indices.Count - 1; i >= 0; i--)
         {
+            /*// Meanwhile delete from Detentions by DetentionID == listView1.Items[indices[i]].Text
+            var detentionID = listView1.Items[indices[i]].Text;
+            Detentions.RemoveAll(d => d.DetentionID == detentionID);*/
+
             listView1.Items.RemoveAt(indices[i]);
         }
+
+        UpdateJsonTextBox();
+        UpdateCountLabel();
+
     }
 
     private void btn_saveJson_Click(object sender, EventArgs e)
     {
         SaveJsonFile();
+    }
+
+    private void rtb_json_DoubleClick(object sender, EventArgs e)
+    {
+        new DetailForm(rtb_json).ShowDialog();
+    }
+
+    private void listView1_DoubleClick(object sender, EventArgs e)
+    {
+        new DetailForm(listView1).ShowDialog(); 
     }
 }

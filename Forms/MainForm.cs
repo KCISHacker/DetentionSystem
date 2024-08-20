@@ -1,5 +1,6 @@
 using System.Threading;
 using DetentionSystem.Classes;
+using DetentionSystem.Forms;
 using static DetentionSystem.Classes.DetentionAPI;
 
 namespace DetentionSystem;
@@ -182,5 +183,10 @@ public partial class MainForm : Form
         rtb_stat.Invoke((MethodInvoker)(() => rtb_stat.Text = stat.GetStatisticString()));
         loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.info_text = $"Loading Detentions to List..."));
         listControl1.Invoke((MethodInvoker)(() => listControl1.LoadDetentions(dts)));
+    }
+
+    private void rtb_stat_DoubleClick(object sender, EventArgs e)
+    {
+        new DetailForm(rtb_stat).ShowDialog();
     }
 }

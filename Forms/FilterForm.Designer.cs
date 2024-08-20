@@ -170,9 +170,9 @@ partial class FilterForm
         label1.Dock = DockStyle.Top;
         label1.Location = new Point(3, 30);
         label1.Name = "label1";
-        label1.Size = new Size(392, 60);
+        label1.Size = new Size(386, 60);
         label1.TabIndex = 1;
-        label1.Text = "Batch remark of the derteention.\r\nExample: week 1 ; week 2\r\nWarning: Combined weeks may appears: week 5 和 week6";
+        label1.Text = "Batch remark of the detention\r\nExample: week 1 ; week 2\r\nWarning: Combined weeks may appear: week 5 和 week6";
         // 
         // tb_batchremark
         // 

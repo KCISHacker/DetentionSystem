@@ -88,6 +88,7 @@ partial class ListControl
         listView1.UseCompatibleStateImageBehavior = false;
         listView1.View = View.Details;
         listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
+        listView1.DoubleClick += listView1_DoubleClick;
         // 
         // columnHeader1
         // 
@@ -249,6 +250,7 @@ partial class ListControl
         rtb_json.Size = new Size(168, 143);
         rtb_json.TabIndex = 5;
         rtb_json.Text = "[]";
+        rtb_json.DoubleClick += rtb_json_DoubleClick;
         // 
         // saveFileDialog1
         // 

@@ -8,7 +8,7 @@ namespace DetentionSystem.Classes;
 
 public class Detention : IEquatable<Detention?>
 {
-    public static Detention[] LoadDetentionsFromJson(string json)
+    public static Detention[] JsonToDetentions(string json)
     {
         List<Detention> detentions = [];
 
