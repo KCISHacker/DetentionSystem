@@ -28,20 +28,20 @@ partial class ChartForm
     /// </summary>
     private void InitializeComponent()
     {
-        var chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-        var legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-        var series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+        var chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+        var legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+        var series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
         tableLayoutPanel1 = new TableLayoutPanel();
         chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
         tableLayoutPanel2 = new TableLayoutPanel();
+        cb_colorPattern = new ComboBox();
+        cb_chartType = new ComboBox();
         label1 = new Label();
         label2 = new Label();
         tableLayoutPanel3 = new TableLayoutPanel();
         label3 = new Label();
-        btn_addComp = new Button();
         cb_data = new ComboBox();
-        cb_chartType = new ComboBox();
-        cb_colorPattern = new ComboBox();
+        btn_addComp = new Button();
         tableLayoutPanel1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
         tableLayoutPanel2.SuspendLayout();
@@ -69,17 +69,17 @@ partial class ChartForm
         // 
         // chart1
         // 
-        chartArea4.Name = "ChartArea1";
-        chart1.ChartAreas.Add(chartArea4);
+        chartArea5.Name = "ChartArea1";
+        chart1.ChartAreas.Add(chartArea5);
         chart1.Dock = DockStyle.Fill;
-        legend4.Name = "Legend1";
-        chart1.Legends.Add(legend4);
+        legend5.Name = "Legend1";
+        chart1.Legends.Add(legend5);
         chart1.Location = new Point(3, 38);
         chart1.Name = "chart1";
-        series4.ChartArea = "ChartArea1";
-        series4.Legend = "Legend1";
-        series4.Name = "Series1";
-        chart1.Series.Add(series4);
+        series5.ChartArea = "ChartArea1";
+        series5.Legend = "Legend1";
+        series5.Name = "Series1";
+        chart1.Series.Add(series5);
         chart1.Size = new Size(470, 198);
         chart1.TabIndex = 0;
         chart1.Text = "chart1";
@@ -102,6 +102,24 @@ partial class ChartForm
         tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         tableLayoutPanel2.Size = new Size(470, 29);
         tableLayoutPanel2.TabIndex = 1;
+        // 
+        // cb_colorPattern
+        // 
+        cb_colorPattern.Dock = DockStyle.Fill;
+        cb_colorPattern.FormattingEnabled = true;
+        cb_colorPattern.Location = new Point(338, 3);
+        cb_colorPattern.Name = "cb_colorPattern";
+        cb_colorPattern.Size = new Size(129, 28);
+        cb_colorPattern.TabIndex = 4;
+        // 
+        // cb_chartType
+        // 
+        cb_chartType.Dock = DockStyle.Fill;
+        cb_chartType.FormattingEnabled = true;
+        cb_chartType.Location = new Point(93, 3);
+        cb_chartType.Name = "cb_chartType";
+        cb_chartType.Size = new Size(129, 28);
+        cb_chartType.TabIndex = 3;
         // 
         // label1
         // 
@@ -148,6 +166,15 @@ partial class ChartForm
         label3.Text = "Data of:";
         label3.TextAlign = ContentAlignment.MiddleRight;
         // 
+        // cb_data
+        // 
+        cb_data.Dock = DockStyle.Fill;
+        cb_data.FormattingEnabled = true;
+        cb_data.Location = new Point(73, 3);
+        cb_data.Name = "cb_data";
+        cb_data.Size = new Size(394, 28);
+        cb_data.TabIndex = 2;
+        // 
         // btn_addComp
         // 
         btn_addComp.Dock = DockStyle.Fill;
@@ -158,33 +185,6 @@ partial class ChartForm
         btn_addComp.Text = "Add Comparison";
         btn_addComp.UseVisualStyleBackColor = true;
         // 
-        // cb_data
-        // 
-        cb_data.Dock = DockStyle.Fill;
-        cb_data.FormattingEnabled = true;
-        cb_data.Location = new Point(73, 3);
-        cb_data.Name = "cb_data";
-        cb_data.Size = new Size(394, 28);
-        cb_data.TabIndex = 2;
-        // 
-        // cb_chartType
-        // 
-        cb_chartType.Dock = DockStyle.Fill;
-        cb_chartType.FormattingEnabled = true;
-        cb_chartType.Location = new Point(93, 3);
-        cb_chartType.Name = "cb_chartType";
-        cb_chartType.Size = new Size(129, 28);
-        cb_chartType.TabIndex = 3;
-        // 
-        // cb_colorPattern
-        // 
-        cb_colorPattern.Dock = DockStyle.Fill;
-        cb_colorPattern.FormattingEnabled = true;
-        cb_colorPattern.Location = new Point(338, 3);
-        cb_colorPattern.Name = "cb_colorPattern";
-        cb_colorPattern.Size = new Size(129, 28);
-        cb_colorPattern.TabIndex = 4;
-        // 
         // ChartForm
         // 
         AutoScaleDimensions = new SizeF(8F, 20F);
@@ -192,7 +192,9 @@ partial class ChartForm
         ClientSize = new Size(476, 314);
         Controls.Add(tableLayoutPanel1);
         Name = "ChartForm";
-        Text = "0";
+        ShowIcon = false;
+        StartPosition = FormStartPosition.CenterParent;
+        Text = "Chart";
         tableLayoutPanel1.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
         tableLayoutPanel2.ResumeLayout(false);

@@ -28,6 +28,7 @@ partial class ListControl
     /// </summary>
     private void InitializeComponent()
     {
+        components = new System.ComponentModel.Container();
         tableLayoutPanel1 = new TableLayoutPanel();
         listView1 = new ListView();
         columnHeader1 = new ColumnHeader();
@@ -56,8 +57,12 @@ partial class ListControl
         btn_saveJson = new Button();
         rtb_json = new RichTextBox();
         saveFileDialog1 = new SaveFileDialog();
+        contextMenuStrip1 = new ContextMenuStrip(components);
+        copyDetailToolStripMenuItem = new ToolStripMenuItem();
+        copyAsJsonToolStripMenuItem = new ToolStripMenuItem();
         tableLayoutPanel1.SuspendLayout();
         tableLayoutPanel2.SuspendLayout();
+        contextMenuStrip1.SuspendLayout();
         SuspendLayout();
         // 
         // tableLayoutPanel1
@@ -69,21 +74,23 @@ partial class ListControl
         tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 0);
         tableLayoutPanel1.Dock = DockStyle.Fill;
         tableLayoutPanel1.Location = new Point(0, 0);
-        tableLayoutPanel1.Margin = new Padding(3, 4, 3, 4);
+        tableLayoutPanel1.Margin = new Padding(4, 5, 4, 5);
         tableLayoutPanel1.Name = "tableLayoutPanel1";
         tableLayoutPanel1.RowCount = 1;
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        tableLayoutPanel1.Size = new Size(450, 419);
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+        tableLayoutPanel1.Size = new Size(562, 524);
         tableLayoutPanel1.TabIndex = 0;
         // 
         // listView1
         // 
         listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5, columnHeader6, columnHeader7, columnHeader8, columnHeader9, columnHeader10, columnHeader11, columnHeader12, columnHeader13, columnHeader14, columnHeader15, columnHeader16, columnHeader17, columnHeader18 });
+        listView1.ContextMenuStrip = contextMenuStrip1;
         listView1.Dock = DockStyle.Fill;
-        listView1.Location = new Point(3, 4);
-        listView1.Margin = new Padding(3, 4, 3, 4);
+        listView1.Location = new Point(4, 5);
+        listView1.Margin = new Padding(4, 5, 4, 5);
         listView1.Name = "listView1";
-        listView1.Size = new Size(264, 411);
+        listView1.Size = new Size(329, 514);
         listView1.TabIndex = 1;
         listView1.UseCompatibleStateImageBehavior = false;
         listView1.View = View.Details;
@@ -173,24 +180,26 @@ partial class ListControl
         tableLayoutPanel2.Controls.Add(btn_saveJson, 0, 5);
         tableLayoutPanel2.Controls.Add(rtb_json, 0, 4);
         tableLayoutPanel2.Dock = DockStyle.Fill;
-        tableLayoutPanel2.Location = new Point(273, 3);
+        tableLayoutPanel2.Location = new Point(341, 4);
+        tableLayoutPanel2.Margin = new Padding(4);
         tableLayoutPanel2.Name = "tableLayoutPanel2";
         tableLayoutPanel2.RowCount = 6;
-        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
         tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
         tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
         tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
         tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 40F));
         tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
-        tableLayoutPanel2.Size = new Size(174, 413);
+        tableLayoutPanel2.Size = new Size(217, 516);
         tableLayoutPanel2.TabIndex = 2;
         // 
         // lb_select
         // 
         lb_select.Dock = DockStyle.Fill;
-        lb_select.Location = new Point(3, 0);
+        lb_select.Location = new Point(4, 0);
+        lb_select.Margin = new Padding(4, 0, 4, 0);
         lb_select.Name = "lb_select";
-        lb_select.Size = new Size(168, 40);
+        lb_select.Size = new Size(209, 50);
         lb_select.TabIndex = 0;
         lb_select.Text = "None of 0 selected";
         lb_select.TextAlign = ContentAlignment.MiddleCenter;
@@ -198,32 +207,34 @@ partial class ListControl
         // btn_edit
         // 
         btn_edit.Dock = DockStyle.Fill;
-        btn_edit.Location = new Point(5, 45);
-        btn_edit.Margin = new Padding(5);
+        btn_edit.Location = new Point(6, 56);
+        btn_edit.Margin = new Padding(6);
         btn_edit.Name = "btn_edit";
-        btn_edit.Size = new Size(164, 45);
+        btn_edit.Size = new Size(205, 57);
         btn_edit.TabIndex = 1;
-        btn_edit.Text = "button1";
+        btn_edit.Text = "Edit";
         btn_edit.UseVisualStyleBackColor = true;
+        btn_edit.Click += btn_edit_Click;
         // 
         // btn_delete
         // 
         btn_delete.Dock = DockStyle.Fill;
-        btn_delete.Location = new Point(5, 100);
-        btn_delete.Margin = new Padding(5);
+        btn_delete.Location = new Point(6, 125);
+        btn_delete.Margin = new Padding(6);
         btn_delete.Name = "btn_delete";
-        btn_delete.Size = new Size(164, 45);
+        btn_delete.Size = new Size(205, 57);
         btn_delete.TabIndex = 2;
-        btn_delete.Text = "button1";
+        btn_delete.Text = "Delete";
         btn_delete.UseVisualStyleBackColor = true;
+        btn_delete.Click += btn_delete_Click;
         // 
         // btn_hide
         // 
         btn_hide.Dock = DockStyle.Fill;
-        btn_hide.Location = new Point(5, 155);
-        btn_hide.Margin = new Padding(5);
+        btn_hide.Location = new Point(6, 194);
+        btn_hide.Margin = new Padding(6);
         btn_hide.Name = "btn_hide";
-        btn_hide.Size = new Size(164, 45);
+        btn_hide.Size = new Size(205, 57);
         btn_hide.TabIndex = 3;
         btn_hide.Text = "HIde From LIst";
         btn_hide.UseVisualStyleBackColor = true;
@@ -232,10 +243,10 @@ partial class ListControl
         // btn_saveJson
         // 
         btn_saveJson.Dock = DockStyle.Fill;
-        btn_saveJson.Location = new Point(5, 359);
-        btn_saveJson.Margin = new Padding(5);
+        btn_saveJson.Location = new Point(6, 449);
+        btn_saveJson.Margin = new Padding(6);
         btn_saveJson.Name = "btn_saveJson";
-        btn_saveJson.Size = new Size(164, 49);
+        btn_saveJson.Size = new Size(205, 61);
         btn_saveJson.TabIndex = 4;
         btn_saveJson.Text = "Save As JSON";
         btn_saveJson.UseVisualStyleBackColor = true;
@@ -244,10 +255,11 @@ partial class ListControl
         // rtb_json
         // 
         rtb_json.Dock = DockStyle.Fill;
-        rtb_json.Location = new Point(3, 208);
+        rtb_json.Location = new Point(4, 261);
+        rtb_json.Margin = new Padding(4);
         rtb_json.Name = "rtb_json";
         rtb_json.ReadOnly = true;
-        rtb_json.Size = new Size(168, 143);
+        rtb_json.Size = new Size(209, 178);
         rtb_json.TabIndex = 5;
         rtb_json.Text = "[]";
         rtb_json.DoubleClick += rtb_json_DoubleClick;
@@ -258,16 +270,38 @@ partial class ListControl
         saveFileDialog1.Filter = "JSON file|*.json";
         saveFileDialog1.Title = "Save as JSON File";
         // 
+        // contextMenuStrip1
+        // 
+        contextMenuStrip1.ImageScalingSize = new Size(24, 24);
+        contextMenuStrip1.Items.AddRange(new ToolStripItem[] { copyDetailToolStripMenuItem, copyAsJsonToolStripMenuItem });
+        contextMenuStrip1.Name = "contextMenuStrip1";
+        contextMenuStrip1.Size = new Size(241, 101);
+        // 
+        // copyDetailToolStripMenuItem
+        // 
+        copyDetailToolStripMenuItem.Name = "copyDetailToolStripMenuItem";
+        copyDetailToolStripMenuItem.Size = new Size(191, 32);
+        copyDetailToolStripMenuItem.Text = "Copy Detail";
+        copyDetailToolStripMenuItem.Click += copyDetailToolStripMenuItem_Click;
+        // 
+        // copyAsJsonToolStripMenuItem
+        // 
+        copyAsJsonToolStripMenuItem.Name = "copyAsJsonToolStripMenuItem";
+        copyAsJsonToolStripMenuItem.Size = new Size(240, 32);
+        copyAsJsonToolStripMenuItem.Text = "Copy As Json";
+        copyAsJsonToolStripMenuItem.Click += copyAsJsonToolStripMenuItem_Click;
+        // 
         // ListControl
         // 
-        AutoScaleDimensions = new SizeF(8F, 20F);
+        AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         Controls.Add(tableLayoutPanel1);
-        Margin = new Padding(3, 4, 3, 4);
+        Margin = new Padding(4, 5, 4, 5);
         Name = "ListControl";
-        Size = new Size(450, 419);
+        Size = new Size(562, 524);
         tableLayoutPanel1.ResumeLayout(false);
         tableLayoutPanel2.ResumeLayout(false);
+        contextMenuStrip1.ResumeLayout(false);
         ResumeLayout(false);
     }
 
@@ -301,4 +335,7 @@ partial class ListControl
     private Button btn_saveJson;
     private RichTextBox rtb_json;
     private SaveFileDialog saveFileDialog1;
+    private ContextMenuStrip contextMenuStrip1;
+    private ToolStripMenuItem copyDetailToolStripMenuItem;
+    private ToolStripMenuItem copyAsJsonToolStripMenuItem;
 }

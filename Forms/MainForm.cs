@@ -58,12 +58,12 @@ public partial class MainForm : Form
     private void Query(CancellationToken cancellationToken, string[] ids, Filter filter, string query)
     {
         var dts = GetDetentions(ids, filter,
-            value => loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.MaxOverallProgress = value)),
-            () => loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.OverallProgress++)),
-            value => loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.MaxCurrentProgress = value)),
-            () =>
+            value => Invoke((MethodInvoker)(() => loadingBarControl1.MaxOverallProgress = value)),
+            (value) => Invoke((MethodInvoker)(() => loadingBarControl1.OverallProgress = value)),
+            value => Invoke((MethodInvoker)(() => loadingBarControl1.MaxCurrentProgress = value)),
+            (value) =>
             {
-                loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.CurrentProgress++));
+                Invoke((MethodInvoker)(() => loadingBarControl1.CurrentProgress = value));
                 cancellationToken.ThrowIfCancellationRequested();
             }
             );
@@ -170,19 +170,19 @@ public partial class MainForm : Form
     private void Query(CancellationToken cancellationToken, string json, Filter filter, string query)
     {
         var dts = LoadDetentionsFromJson(json, filter,
-            value => loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.MaxCurrentProgress = value)),
-            () =>
+            value => loadingBarControl1.Invoke(() => loadingBarControl1.MaxCurrentProgress = value),
+            (value) =>
             {
-                loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.CurrentProgress++));
+                loadingBarControl1.Invoke(() => loadingBarControl1.CurrentProgress = value);
                 cancellationToken.ThrowIfCancellationRequested();
             }
             );
         cancellationToken.ThrowIfCancellationRequested();
-        loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.info_text = $"Statisticizing Detention..."));
+        loadingBarControl1.Invoke(() => loadingBarControl1.info_text = $"Statisticizing Detention...");
         var stat = new DetentionStat(query, dts);
-        rtb_stat.Invoke((MethodInvoker)(() => rtb_stat.Text = stat.GetStatisticString()));
-        loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.info_text = $"Loading Detentions to List..."));
-        listControl1.Invoke((MethodInvoker)(() => listControl1.LoadDetentions(dts)));
+        rtb_stat.Invoke(() => rtb_stat.Text = stat.GetStatisticString());
+        loadingBarControl1.Invoke(() => loadingBarControl1.info_text = $"Loading Detentions to List...");
+        listControl1.Invoke(() => listControl1.LoadDetentions(dts));
     }
 
     private void rtb_stat_DoubleClick(object sender, EventArgs e)

@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.InteropServices.Marshalling;
+using System.Text;
+using System.Text.Json;
 using DetentionSystem.Classes;
 using DetentionSystem.Forms;
 
@@ -104,19 +106,29 @@ public partial class ListControl : UserControl
 
     private void btn_hide_Click(object sender, EventArgs e)
     {
-        RemoveIndiceFromListView(listView1.SelectedIndices.Cast<int>().ToList());
+        DeleteDetention(listView1.SelectedIndices.Cast<int>().ToList(), false);
     }
 
-    private void RemoveIndiceFromListView(List<int> indices)
+    private void DeleteDetention(List<int> indices, bool deleteFromCloud)
     {
         indices.Sort();
-        for (var i = indices.Count - 1; i >= 0; i--)
+        foreach (var index in indices.OrderByDescending(i => i))
         {
+            if (deleteFromCloud)
+            {
+                // DANGEROUS!!! DIRECTLY DELETE FROM CLOUD!!! THE ACTION CANNOT BE UNDONE
+
+                if (DetentionAPI.DeleteDetention(listView1.Items[index].Text))
+                {
+                    MessageBox.Show("Done! Detention has been deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
             /*// Meanwhile delete from Detentions by DetentionID == listView1.Items[indices[i]].Text
             var detentionID = listView1.Items[indices[i]].Text;
             Detentions.RemoveAll(d => d.DetentionID == detentionID);*/
 
-            listView1.Items.RemoveAt(indices[i]);
+            listView1.Items.RemoveAt(index);
         }
 
         UpdateJsonTextBox();
@@ -136,6 +148,74 @@ public partial class ListControl : UserControl
 
     private void listView1_DoubleClick(object sender, EventArgs e)
     {
-        new DetailForm(listView1).ShowDialog(); 
+        new DetailForm(listView1).ShowDialog();
+    }
+
+    private void btn_edit_Click(object sender, EventArgs e)
+    {
+        var selectedItem = listView1.SelectedItems[0];
+        if (selectedItem.Tag is Detention dt)
+        {
+            var editForm = new EditForm(dt);
+            if (editForm.ShowDialog() == DialogResult.OK)
+            {
+                if (DetentionAPI.UpdateDetention(dt))
+                {
+                    selectedItem.Tag = dt;
+
+                    selectedItem.SubItems[5].Text = dt.DetentionDate?.ToString("yyyy-MM-dd");
+                    selectedItem.SubItems[7].Text = dt.DetentionContent ?? "";
+                    selectedItem.SubItems[8].Text = dt.DetentionTimes?.ToString();
+                    selectedItem.SubItems[9].Text = dt.DoTimes?.ToString();
+                    selectedItem.SubItems[11].Text = dt.UploadDept;
+
+                    UpdateJsonTextBox();
+                }
+            }
+        }
+    }
+
+    private void btn_delete_Click(object sender, EventArgs e)
+    {
+        // Add delete warnin that this cannot be undone
+        if (MessageBox.Show("Are you sure you want to delete the selected detentions?\n" +
+            "This action cannot be undone!!", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+        {
+            DeleteDetention(listView1.SelectedIndices.Cast<int>().ToList(), true);
+        }
+    }
+
+    private void copyDetailToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (listView1.SelectedItems.Count <= 0) return;
+        if (listView1.SelectedItems.Count == 1 && listView1.SelectedItems[0].Tag is Detention dt)
+        {
+            Clipboard.SetText(dt.ToString());
+            return;
+        }
+        // connect listView1.SelectedItems.Cast<ListViewItem>().Select(item => (item.Tag as Detention).ToString()) to a string
+        var sb = new StringBuilder();
+        foreach (var item in listView1.SelectedItems.Cast<ListViewItem>())
+        {
+            if (item.Tag is Detention det)
+            {
+                sb.AppendLine(det.ToString());
+                sb.AppendLine();
+            }
+        }
+        Clipboard.SetText(sb.ToString());
+    }
+
+    private void copyAsJsonToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (listView1.SelectedItems.Count <= 0) return;
+        if (listView1.SelectedItems.Count == 1 && listView1.SelectedItems[0].Tag is Detention dt)
+        {
+            Clipboard.SetText(Detention.DetentionToJson(dt));
+            return;
+        }
+
+        Detention[] detentions = listView1.SelectedItems.Cast<ListViewItem>().Select(item => (item.Tag as Detention) ?? new Detention()).ToArray();
+        Clipboard.SetText(Detention.DetentionsToJson(detentions));
     }
 }

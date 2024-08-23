@@ -37,6 +37,7 @@ partial class DetailForm
         ClientSize = new Size(502, 307);
         Name = "DetailForm";
         ShowIcon = false;
+        StartPosition = FormStartPosition.CenterParent;
         Text = "Detail";
         FormClosing += DetailForm_FormClosing;
         ResumeLayout(false);

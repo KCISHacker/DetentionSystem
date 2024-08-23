@@ -15,7 +15,7 @@ public partial class DetailForm : Form
     {
         InitializeComponent();
 
-        ControlOwner = control.Parent ?? new Control();
+        ControlOwner = control.Parent;
 
         Control = control;
         ControlDockStyle = control.Dock;
@@ -24,12 +24,12 @@ public partial class DetailForm : Form
     }
 
     private readonly Control Control;
-    private readonly Control ControlOwner;
+    private readonly Control? ControlOwner;
     private readonly DockStyle ControlDockStyle;
 
     private void DetailForm_FormClosing(object sender, FormClosingEventArgs e)
     {
         Control.Dock = ControlDockStyle;
-        ControlOwner.Controls.Add(Control);
+        ControlOwner?.Controls.Add(Control);
     }
 }
