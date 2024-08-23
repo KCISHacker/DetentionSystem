@@ -41,9 +41,10 @@ partial class EditForm
         // propertyGrid1
         // 
         propertyGrid1.Dock = DockStyle.Fill;
-        propertyGrid1.Location = new Point(3, 3);
+        propertyGrid1.Location = new Point(4, 4);
+        propertyGrid1.Margin = new Padding(4);
         propertyGrid1.Name = "propertyGrid1";
-        propertyGrid1.Size = new Size(491, 288);
+        propertyGrid1.Size = new Size(613, 360);
         propertyGrid1.TabIndex = 0;
         // 
         // tableLayoutPanel1
@@ -54,11 +55,12 @@ partial class EditForm
         tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 1);
         tableLayoutPanel1.Dock = DockStyle.Fill;
         tableLayoutPanel1.Location = new Point(0, 0);
+        tableLayoutPanel1.Margin = new Padding(4);
         tableLayoutPanel1.Name = "tableLayoutPanel1";
         tableLayoutPanel1.RowCount = 2;
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-        tableLayoutPanel1.Size = new Size(497, 344);
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
+        tableLayoutPanel1.Size = new Size(621, 430);
         tableLayoutPanel1.TabIndex = 1;
         // 
         // tableLayoutPanel2
@@ -71,19 +73,21 @@ partial class EditForm
         tableLayoutPanel2.Controls.Add(btn_cancel, 1, 0);
         tableLayoutPanel2.Controls.Add(linkLabel1, 2, 0);
         tableLayoutPanel2.Dock = DockStyle.Fill;
-        tableLayoutPanel2.Location = new Point(3, 297);
+        tableLayoutPanel2.Location = new Point(4, 372);
+        tableLayoutPanel2.Margin = new Padding(4);
         tableLayoutPanel2.Name = "tableLayoutPanel2";
         tableLayoutPanel2.RowCount = 1;
         tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        tableLayoutPanel2.Size = new Size(491, 44);
+        tableLayoutPanel2.Size = new Size(613, 54);
         tableLayoutPanel2.TabIndex = 1;
         // 
         // btn_ok
         // 
         btn_ok.Dock = DockStyle.Fill;
-        btn_ok.Location = new Point(3, 3);
+        btn_ok.Location = new Point(4, 4);
+        btn_ok.Margin = new Padding(4);
         btn_ok.Name = "btn_ok";
-        btn_ok.Size = new Size(157, 38);
+        btn_ok.Size = new Size(196, 46);
         btn_ok.TabIndex = 0;
         btn_ok.Text = "OK";
         btn_ok.UseVisualStyleBackColor = true;
@@ -92,9 +96,10 @@ partial class EditForm
         // btn_cancel
         // 
         btn_cancel.Dock = DockStyle.Fill;
-        btn_cancel.Location = new Point(166, 3);
+        btn_cancel.Location = new Point(208, 4);
+        btn_cancel.Margin = new Padding(4);
         btn_cancel.Name = "btn_cancel";
-        btn_cancel.Size = new Size(157, 38);
+        btn_cancel.Size = new Size(196, 46);
         btn_cancel.TabIndex = 1;
         btn_cancel.Text = "Cancel";
         btn_cancel.UseVisualStyleBackColor = true;
@@ -103,20 +108,25 @@ partial class EditForm
         // linkLabel1
         // 
         linkLabel1.Dock = DockStyle.Fill;
-        linkLabel1.Location = new Point(329, 0);
+        linkLabel1.Location = new Point(412, 0);
+        linkLabel1.Margin = new Padding(4, 0, 4, 0);
         linkLabel1.Name = "linkLabel1";
-        linkLabel1.Size = new Size(159, 44);
+        linkLabel1.Size = new Size(197, 54);
         linkLabel1.TabIndex = 2;
         linkLabel1.TabStop = true;
         linkLabel1.Text = "Help! WTF is this???";
         linkLabel1.TextAlign = ContentAlignment.MiddleCenter;
+        linkLabel1.LinkClicked += linkLabel1_LinkClicked;
         // 
         // EditForm
         // 
-        AutoScaleDimensions = new SizeF(8F, 20F);
+        AcceptButton = btn_ok;
+        AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(497, 344);
+        CancelButton = btn_cancel;
+        ClientSize = new Size(621, 430);
         Controls.Add(tableLayoutPanel1);
+        Margin = new Padding(4);
         Name = "EditForm";
         ShowIcon = false;
         StartPosition = FormStartPosition.CenterParent;

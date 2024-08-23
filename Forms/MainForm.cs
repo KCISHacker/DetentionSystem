@@ -1,5 +1,5 @@
-using System.Threading;
 using DetentionSystem.Classes;
+using DetentionSystem.Controls;
 using DetentionSystem.Forms;
 using static DetentionSystem.Classes.DetentionAPI;
 
@@ -13,21 +13,17 @@ public partial class MainForm : Form
         loadingBarControl1.BringToFront();
     }
 
-    public static Filter Filter = new();
-
     private void queryControl1_Query(object sender, QueryControl.QueryEventArgs e)
     {
         AsyncQueryStart(e.Ids, e.Filters, e.Query);
+        btn_chart.Enabled = true;
     }
 
 
     public CancellationTokenSource? queryTaskCancellationTokenSource;
     public async void AsyncQueryStart(string[] ids, Filter filter, string query)
     {
-        if (queryTaskCancellationTokenSource != null)
-        {
-            queryTaskCancellationTokenSource.Cancel();
-        }
+        queryTaskCancellationTokenSource?.Cancel();
         queryTaskCancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = queryTaskCancellationTokenSource.Token;
 
@@ -48,7 +44,12 @@ public partial class MainForm : Form
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"{ex.InnerException} Error Occurred when querying: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"{ex.InnerException} Error occurred when querying: {ex.Message}\n\n" +
+                $"Probable solution:\n" +
+                $"- Check API avaliability: navigate to Top Strip > Options > More > Check Avaliability\n" +
+                $"- Check Internet connection\n" +
+                $"- Retry other time\n" +
+                $"- Update to the latest version of Detention System: https://github.com/KCISHacker/DetentionSystem", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             queryTaskCancellationTokenSource.Cancel();
         }
         QueryAction(false, query);
@@ -58,21 +59,29 @@ public partial class MainForm : Form
     private void Query(CancellationToken cancellationToken, string[] ids, Filter filter, string query)
     {
         var dts = GetDetentions(ids, filter,
-            value => Invoke((MethodInvoker)(() => loadingBarControl1.MaxOverallProgress = value)),
-            (value) => Invoke((MethodInvoker)(() => loadingBarControl1.OverallProgress = value)),
-            value => Invoke((MethodInvoker)(() => loadingBarControl1.MaxCurrentProgress = value)),
+            value => Invoke(() => loadingBarControl1.MaxOverallProgress = value),
+            (value) => Invoke(() => loadingBarControl1.OverallProgress = value),
+            value => Invoke(() => loadingBarControl1.MaxCurrentProgress = value),
             (value) =>
             {
                 Invoke((MethodInvoker)(() => loadingBarControl1.CurrentProgress = value));
                 cancellationToken.ThrowIfCancellationRequested();
             }
             );
-        cancellationToken.ThrowIfCancellationRequested();
-        loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.info_text = $"Statisticizing Detention..."));
-        var stat = new DetentionStat(query, dts);
-        rtb_stat.Invoke((MethodInvoker)(() => rtb_stat.Text = stat.GetStatisticString()));
-        loadingBarControl1.Invoke((MethodInvoker)(() => loadingBarControl1.info_text = $"Loading Detentions to List..."));
-        listControl1.Invoke((MethodInvoker)(() => listControl1.LoadDetentions(dts)));
+        Statistic(cancellationToken, dts, query);
+    }
+
+    private void Query(CancellationToken cancellationToken, string json, Filter filter, string query)
+    {
+        var dts = LoadDetentionsFromJson(json, filter,
+            value => Invoke(() => loadingBarControl1.MaxCurrentProgress = value),
+            (value) =>
+            {
+                Invoke(() => loadingBarControl1.CurrentProgress = value);
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+            );
+        Statistic(cancellationToken, dts, query);
     }
 
     private void QueryAction(bool prepare, string query)
@@ -104,6 +113,8 @@ public partial class MainForm : Form
     {
         listControl1.ClearDetentions();
         rtb_stat.Text = "";
+        btn_chart.Enabled = false;
+        chartControl1!.Stat = [];
     }
 
     private void cancelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -125,7 +136,7 @@ public partial class MainForm : Form
             {
                 // Read from chosen file
                 var json = File.ReadAllText(openFileDialog1.FileName);
-                AsyncQueryStart(json, Filter, "JSON");
+                AsyncQueryStart(json, queryControl1.Filter, "JSON");
             }
             catch (Exception ex)
             {
@@ -136,10 +147,7 @@ public partial class MainForm : Form
 
     public async void AsyncQueryStart(string json, Filter filter, string query)
     {
-        if (queryTaskCancellationTokenSource != null)
-        {
-            queryTaskCancellationTokenSource.Cancel();
-        }
+        queryTaskCancellationTokenSource?.Cancel();
         queryTaskCancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = queryTaskCancellationTokenSource.Token;
 
@@ -167,26 +175,45 @@ public partial class MainForm : Form
         queryTaskCancellationTokenSource = null;
     }
 
-    private void Query(CancellationToken cancellationToken, string json, Filter filter, string query)
+    public void Statistic(CancellationToken cancellationToken, Detention[] detentions, string query)
     {
-        var dts = LoadDetentionsFromJson(json, filter,
-            value => loadingBarControl1.Invoke(() => loadingBarControl1.MaxCurrentProgress = value),
-            (value) =>
-            {
-                loadingBarControl1.Invoke(() => loadingBarControl1.CurrentProgress = value);
-                cancellationToken.ThrowIfCancellationRequested();
-            }
-            );
         cancellationToken.ThrowIfCancellationRequested();
-        loadingBarControl1.Invoke(() => loadingBarControl1.info_text = $"Statisticizing Detention...");
-        var stat = new DetentionStat(query, dts);
-        rtb_stat.Invoke(() => rtb_stat.Text = stat.GetStatisticString());
-        loadingBarControl1.Invoke(() => loadingBarControl1.info_text = $"Loading Detentions to List...");
-        listControl1.Invoke(() => listControl1.LoadDetentions(dts));
+        Invoke(() => loadingBarControl1.info_text = $"Statisticizing Detention...");
+        var stat = new DetentionStat(query, detentions);
+        chartControl1 = new(stat);
+        Invoke(() =>
+        {
+            rtb_stat.Text = stat.GetStatisticString();
+            loadingBarControl1.info_text = $"Loading Detentions to List...";
+            listControl1.LoadDetentions(detentions);
+        });
     }
 
     private void rtb_stat_DoubleClick(object sender, EventArgs e)
     {
         new DetailForm(rtb_stat).ShowDialog();
     }
+
+    private void statisticInfoToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        new DetailForm(rtb_stat).ShowDialog();
+    }
+
+    private void listToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        listControl1.ShowListDetail();
+    }
+
+    private void jsonToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        listControl1.ShowJsonDetail();
+    }
+
+    private void btn_chart_Click(object sender, EventArgs e)
+    {
+        if (chartControl1 != null)
+            new DetailForm(chartControl1).ShowDialog();
+    }
+
+    private ChartControl? chartControl1;
 }

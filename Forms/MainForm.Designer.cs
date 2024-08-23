@@ -28,15 +28,17 @@ partial class MainForm
     /// </summary>
     private void InitializeComponent()
     {
-        var chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-        var legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-        var series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
         menuStrip1 = new MenuStrip();
         fileToolStripMenuItem = new ToolStripMenuItem();
         saveAsJsonToolStripMenuItem = new ToolStripMenuItem();
         loadJSONToolStripMenuItem = new ToolStripMenuItem();
         downloadAsExcelelToolStripMenuItem = new ToolStripMenuItem();
         viewToolStripMenuItem = new ToolStripMenuItem();
+        detailToolStripMenuItem = new ToolStripMenuItem();
+        statisticInfoToolStripMenuItem = new ToolStripMenuItem();
+        listToolStripMenuItem = new ToolStripMenuItem();
+        jsonToolStripMenuItem = new ToolStripMenuItem();
+        chartToolStripMenuItem = new ToolStripMenuItem();
         optionsToolStripMenuItem = new ToolStripMenuItem();
         filterToolStripMenuItem = new ToolStripMenuItem();
         moreToolStripMenuItem = new ToolStripMenuItem();
@@ -52,7 +54,7 @@ partial class MainForm
         groupBox3 = new GroupBox();
         tableLayoutPanel4 = new TableLayoutPanel();
         rtb_stat = new RichTextBox();
-        chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+        btn_chart = new Button();
         tableLayoutPanel3 = new TableLayoutPanel();
         btn_clear = new Button();
         groupBox1 = new GroupBox();
@@ -65,7 +67,6 @@ partial class MainForm
         groupBox2.SuspendLayout();
         groupBox3.SuspendLayout();
         tableLayoutPanel4.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
         tableLayoutPanel3.SuspendLayout();
         groupBox1.SuspendLayout();
         SuspendLayout();
@@ -109,9 +110,44 @@ partial class MainForm
         // 
         // viewToolStripMenuItem
         // 
+        viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { detailToolStripMenuItem, chartToolStripMenuItem });
         viewToolStripMenuItem.Name = "viewToolStripMenuItem";
         viewToolStripMenuItem.Size = new Size(65, 29);
         viewToolStripMenuItem.Text = "&View";
+        // 
+        // detailToolStripMenuItem
+        // 
+        detailToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { statisticInfoToolStripMenuItem, listToolStripMenuItem, jsonToolStripMenuItem });
+        detailToolStripMenuItem.Name = "detailToolStripMenuItem";
+        detailToolStripMenuItem.Size = new Size(159, 34);
+        detailToolStripMenuItem.Text = "&Detail";
+        // 
+        // statisticInfoToolStripMenuItem
+        // 
+        statisticInfoToolStripMenuItem.Name = "statisticInfoToolStripMenuItem";
+        statisticInfoToolStripMenuItem.Size = new Size(211, 34);
+        statisticInfoToolStripMenuItem.Text = "&Statistic Info";
+        statisticInfoToolStripMenuItem.Click += statisticInfoToolStripMenuItem_Click;
+        // 
+        // listToolStripMenuItem
+        // 
+        listToolStripMenuItem.Name = "listToolStripMenuItem";
+        listToolStripMenuItem.Size = new Size(211, 34);
+        listToolStripMenuItem.Text = "&List";
+        listToolStripMenuItem.Click += listToolStripMenuItem_Click;
+        // 
+        // jsonToolStripMenuItem
+        // 
+        jsonToolStripMenuItem.Name = "jsonToolStripMenuItem";
+        jsonToolStripMenuItem.Size = new Size(211, 34);
+        jsonToolStripMenuItem.Text = "&Json";
+        jsonToolStripMenuItem.Click += jsonToolStripMenuItem_Click;
+        // 
+        // chartToolStripMenuItem
+        // 
+        chartToolStripMenuItem.Name = "chartToolStripMenuItem";
+        chartToolStripMenuItem.Size = new Size(159, 34);
+        chartToolStripMenuItem.Text = "&Chart";
         // 
         // optionsToolStripMenuItem
         // 
@@ -173,7 +209,7 @@ partial class MainForm
         loadingBarControl1.MaxOverallProgress = 100;
         loadingBarControl1.Name = "loadingBarControl1";
         loadingBarControl1.OverallProgress = 0;
-        loadingBarControl1.Size = new Size(921, 484);
+        loadingBarControl1.Size = new Size(921, 520);
         loadingBarControl1.TabIndex = 1;
         loadingBarControl1.Visible = false;
         // 
@@ -186,11 +222,11 @@ partial class MainForm
         tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 1, 0);
         tableLayoutPanel1.Dock = DockStyle.Fill;
         tableLayoutPanel1.Location = new Point(0, 37);
-        tableLayoutPanel1.Margin = new Padding(4, 4, 4, 4);
+        tableLayoutPanel1.Margin = new Padding(4);
         tableLayoutPanel1.Name = "tableLayoutPanel1";
         tableLayoutPanel1.RowCount = 1;
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-        tableLayoutPanel1.Size = new Size(921, 484);
+        tableLayoutPanel1.Size = new Size(921, 520);
         tableLayoutPanel1.TabIndex = 2;
         // 
         // tableLayoutPanel2
@@ -201,12 +237,12 @@ partial class MainForm
         tableLayoutPanel2.Controls.Add(groupBox3, 0, 1);
         tableLayoutPanel2.Dock = DockStyle.Fill;
         tableLayoutPanel2.Location = new Point(4, 4);
-        tableLayoutPanel2.Margin = new Padding(4, 4, 4, 4);
+        tableLayoutPanel2.Margin = new Padding(4);
         tableLayoutPanel2.Name = "tableLayoutPanel2";
         tableLayoutPanel2.RowCount = 2;
-        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
-        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
-        tableLayoutPanel2.Size = new Size(452, 476);
+        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 150F));
+        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tableLayoutPanel2.Size = new Size(452, 512);
         tableLayoutPanel2.TabIndex = 0;
         // 
         // groupBox2
@@ -214,10 +250,10 @@ partial class MainForm
         groupBox2.Controls.Add(queryControl1);
         groupBox2.Dock = DockStyle.Fill;
         groupBox2.Location = new Point(4, 4);
-        groupBox2.Margin = new Padding(4, 4, 4, 4);
+        groupBox2.Margin = new Padding(4);
         groupBox2.Name = "groupBox2";
-        groupBox2.Padding = new Padding(4, 4, 4, 4);
-        groupBox2.Size = new Size(444, 134);
+        groupBox2.Padding = new Padding(4);
+        groupBox2.Size = new Size(444, 142);
         groupBox2.TabIndex = 2;
         groupBox2.TabStop = false;
         groupBox2.Text = "Query";
@@ -228,7 +264,7 @@ partial class MainForm
         queryControl1.Location = new Point(4, 28);
         queryControl1.Margin = new Padding(4, 5, 4, 5);
         queryControl1.Name = "queryControl1";
-        queryControl1.Size = new Size(436, 102);
+        queryControl1.Size = new Size(436, 110);
         queryControl1.TabIndex = 0;
         queryControl1.OnQuery += queryControl1_Query;
         // 
@@ -236,11 +272,11 @@ partial class MainForm
         // 
         groupBox3.Controls.Add(tableLayoutPanel4);
         groupBox3.Dock = DockStyle.Fill;
-        groupBox3.Location = new Point(4, 146);
-        groupBox3.Margin = new Padding(4, 4, 4, 4);
+        groupBox3.Location = new Point(4, 154);
+        groupBox3.Margin = new Padding(4);
         groupBox3.Name = "groupBox3";
-        groupBox3.Padding = new Padding(4, 4, 4, 4);
-        groupBox3.Size = new Size(444, 326);
+        groupBox3.Padding = new Padding(4);
+        groupBox3.Size = new Size(444, 354);
         groupBox3.TabIndex = 3;
         groupBox3.TabStop = false;
         groupBox3.Text = "Statistic";
@@ -250,45 +286,40 @@ partial class MainForm
         tableLayoutPanel4.ColumnCount = 1;
         tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         tableLayoutPanel4.Controls.Add(rtb_stat, 0, 1);
-        tableLayoutPanel4.Controls.Add(chart1, 0, 0);
+        tableLayoutPanel4.Controls.Add(btn_chart, 0, 0);
         tableLayoutPanel4.Dock = DockStyle.Fill;
         tableLayoutPanel4.Location = new Point(4, 28);
-        tableLayoutPanel4.Margin = new Padding(4, 4, 4, 4);
+        tableLayoutPanel4.Margin = new Padding(4);
         tableLayoutPanel4.Name = "tableLayoutPanel4";
         tableLayoutPanel4.RowCount = 2;
-        tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-        tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-        tableLayoutPanel4.Size = new Size(436, 294);
+        tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+        tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tableLayoutPanel4.Size = new Size(436, 322);
         tableLayoutPanel4.TabIndex = 0;
         // 
         // rtb_stat
         // 
         rtb_stat.Dock = DockStyle.Fill;
-        rtb_stat.Location = new Point(4, 151);
-        rtb_stat.Margin = new Padding(4, 4, 4, 4);
+        rtb_stat.Location = new Point(4, 64);
+        rtb_stat.Margin = new Padding(4);
         rtb_stat.Name = "rtb_stat";
         rtb_stat.ReadOnly = true;
-        rtb_stat.Size = new Size(428, 139);
+        rtb_stat.Size = new Size(428, 254);
         rtb_stat.TabIndex = 1;
         rtb_stat.Text = "";
         rtb_stat.DoubleClick += rtb_stat_DoubleClick;
         // 
-        // chart1
+        // btn_chart
         // 
-        chartArea1.Name = "ChartArea1";
-        chart1.ChartAreas.Add(chartArea1);
-        legend1.Name = "Legend1";
-        chart1.Legends.Add(legend1);
-        chart1.Location = new Point(4, 4);
-        chart1.Margin = new Padding(4, 4, 4, 4);
-        chart1.Name = "chart1";
-        series1.ChartArea = "ChartArea1";
-        series1.Legend = "Legend1";
-        series1.Name = "Series1";
-        chart1.Series.Add(series1);
-        chart1.Size = new Size(428, 136);
-        chart1.TabIndex = 2;
-        chart1.Text = "Detention Statistic";
+        btn_chart.Dock = DockStyle.Fill;
+        btn_chart.Enabled = false;
+        btn_chart.Location = new Point(3, 3);
+        btn_chart.Name = "btn_chart";
+        btn_chart.Size = new Size(430, 54);
+        btn_chart.TabIndex = 2;
+        btn_chart.Text = "Show Chart";
+        btn_chart.UseVisualStyleBackColor = true;
+        btn_chart.Click += btn_chart_Click;
         // 
         // tableLayoutPanel3
         // 
@@ -298,22 +329,21 @@ partial class MainForm
         tableLayoutPanel3.Controls.Add(groupBox1, 0, 0);
         tableLayoutPanel3.Dock = DockStyle.Fill;
         tableLayoutPanel3.Location = new Point(464, 4);
-        tableLayoutPanel3.Margin = new Padding(4, 4, 4, 4);
+        tableLayoutPanel3.Margin = new Padding(4);
         tableLayoutPanel3.Name = "tableLayoutPanel3";
         tableLayoutPanel3.RowCount = 2;
-        tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
-        tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-        tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
-        tableLayoutPanel3.Size = new Size(453, 476);
+        tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+        tableLayoutPanel3.Size = new Size(453, 512);
         tableLayoutPanel3.TabIndex = 1;
         // 
         // btn_clear
         // 
         btn_clear.Dock = DockStyle.Fill;
-        btn_clear.Location = new Point(4, 432);
-        btn_clear.Margin = new Padding(4, 4, 4, 4);
+        btn_clear.Location = new Point(4, 466);
+        btn_clear.Margin = new Padding(4);
         btn_clear.Name = "btn_clear";
-        btn_clear.Size = new Size(445, 40);
+        btn_clear.Size = new Size(445, 42);
         btn_clear.TabIndex = 0;
         btn_clear.Text = "Clear";
         btn_clear.UseVisualStyleBackColor = true;
@@ -324,10 +354,10 @@ partial class MainForm
         groupBox1.Controls.Add(listControl1);
         groupBox1.Dock = DockStyle.Fill;
         groupBox1.Location = new Point(4, 4);
-        groupBox1.Margin = new Padding(4, 4, 4, 4);
+        groupBox1.Margin = new Padding(4);
         groupBox1.Name = "groupBox1";
-        groupBox1.Padding = new Padding(4, 4, 4, 4);
-        groupBox1.Size = new Size(445, 420);
+        groupBox1.Padding = new Padding(4);
+        groupBox1.Size = new Size(445, 454);
         groupBox1.TabIndex = 1;
         groupBox1.TabStop = false;
         groupBox1.Text = "List";
@@ -338,14 +368,13 @@ partial class MainForm
         listControl1.Location = new Point(4, 28);
         listControl1.Margin = new Padding(4, 5, 4, 5);
         listControl1.Name = "listControl1";
-        listControl1.Size = new Size(437, 388);
+        listControl1.Size = new Size(437, 422);
         listControl1.TabIndex = 1;
         // 
         // openFileDialog1
         // 
         openFileDialog1.CheckFileExists = false;
         openFileDialog1.CheckPathExists = false;
-        openFileDialog1.FileName = "openFileDialog1";
         openFileDialog1.Filter = "JSON file|*.json";
         openFileDialog1.Title = "Load aSON file";
         // 
@@ -353,7 +382,7 @@ partial class MainForm
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(921, 521);
+        ClientSize = new Size(921, 557);
         Controls.Add(tableLayoutPanel1);
         Controls.Add(loadingBarControl1);
         Controls.Add(menuStrip1);
@@ -369,7 +398,6 @@ partial class MainForm
         groupBox2.ResumeLayout(false);
         groupBox3.ResumeLayout(false);
         tableLayoutPanel4.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
         tableLayoutPanel3.ResumeLayout(false);
         groupBox1.ResumeLayout(false);
         ResumeLayout(false);
@@ -404,6 +432,11 @@ partial class MainForm
     private GroupBox groupBox2;
     private GroupBox groupBox3;
     private TableLayoutPanel tableLayoutPanel4;
-    private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     private System.ComponentModel.BackgroundWorker backgroundWorker1;
+    private Button btn_chart;
+    private ToolStripMenuItem detailToolStripMenuItem;
+    private ToolStripMenuItem statisticInfoToolStripMenuItem;
+    private ToolStripMenuItem listToolStripMenuItem;
+    private ToolStripMenuItem jsonToolStripMenuItem;
+    private ToolStripMenuItem chartToolStripMenuItem;
 }

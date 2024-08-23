@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Globalization;
+﻿using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -171,7 +167,7 @@ public class Detention : IEquatable<Detention?>
     {
         get; set;
     }
-    [Category("Date & Time")]
+    [Category("Date && Time")]
     [DisplayName("Date Sent")]
     [Description("Time when the detentions were determined to be sent, different from 'Date Registered'")]
     public DateTime? DetentionDate
@@ -192,13 +188,17 @@ public class Detention : IEquatable<Detention?>
         get; set;
     }
     [Category("Detention")]
-    [DisplayName("Times")]
+    [DisplayName("Total Times")]
+    [Description("Total times of detentions sent")]
+    [RefreshProperties(RefreshProperties.All)]
     public int? DetentionTimes
     {
         get; set;
     }
     [Category("Detention")]
     [DisplayName("Done Times")]
+    [Description("Times of detentions that is done")]
+    [RefreshProperties(RefreshProperties.All)]
     public int? DoTimes
     {
         get; set;
@@ -206,6 +206,7 @@ public class Detention : IEquatable<Detention?>
     [ReadOnly(true)]
     [Category("Detention")]
     [DisplayName("Not Done Times")]
+    [Description("Times of detentions that is not done")]
     public int? UndoTimes
     {
         get => DetentionTimes - DoTimes;
@@ -225,13 +226,13 @@ public class Detention : IEquatable<Detention?>
         get; set;
     }
     [ReadOnly(true)]
-    [Description("A number of week the detentions were sent, aka the id of the batch that the detentions were proceed")]
+    [Description("An ID of week the detentions were sent, aka the id of the batch that the detentions were proceeded")]
     public string? BatchNo
     {
         get; set;
     }
     [ReadOnly(true)]
-    [Category("Date & Time")]
+    [Category("Date && Time")]
     [DisplayName("Week Mark")]
     [Description("aka batch remark")]
     public string? BatchRemark
@@ -246,7 +247,7 @@ public class Detention : IEquatable<Detention?>
         get; set;
     }
     [ReadOnly(true)]
-    [Category("Date & Time")]
+    [Category("Date && Time")]
     [DisplayName("Time Uploaded")]
     [Description("Time when the detentions were registered, different from 'Date Sent'")]
     public DateTime? CreateTime
@@ -268,7 +269,7 @@ public class Detention : IEquatable<Detention?>
 
     public override string ToString()
     {
-        return $"Detentiion ID: {DetentionID}" +
+        return $"Detention ID: {DetentionID}" +
             $"\nAccount: {AccountID}" +
             $"\nChinese Name: {Cname}" +
             $"\nEnglish Name: {Ename}" +

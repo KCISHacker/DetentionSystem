@@ -1,15 +1,17 @@
-﻿using System.Runtime.InteropServices.Marshalling;
-using System.Text;
-using System.Text.Json;
-using DetentionSystem.Classes;
+﻿using DetentionSystem.Classes;
 using DetentionSystem.Forms;
 
 namespace DetentionSystem;
 public partial class ListControl : UserControl
 {
+    private readonly ListViewColumnSorter lvwColumnSorter;
+
     public ListControl()
     {
         InitializeComponent();
+
+        lvwColumnSorter = new ListViewColumnSorter();
+        listView1.ListViewItemSorter = lvwColumnSorter;
     }
 
     private void AddDetention(Detention detention)
@@ -72,6 +74,14 @@ public partial class ListControl : UserControl
              selected == 0 ? "None" : (selected == total ? "All" : selected),
              total
              );
+
+        if (listView1.SelectedItems.Count <= 0) btn_hide.Enabled = btn_edit.Enabled = btn_delete.Enabled = false;
+        else if (listView1.SelectedItems.Count == 1) btn_hide.Enabled = btn_edit.Enabled = btn_delete.Enabled = true;
+        else if (listView1.SelectedItems.Count > 1)
+        {
+            btn_edit.Enabled = false;
+            btn_hide.Enabled = btn_delete.Enabled = true;
+        }
     }
 
     private void UpdateJsonTextBox()
@@ -143,16 +153,17 @@ public partial class ListControl : UserControl
 
     private void rtb_json_DoubleClick(object sender, EventArgs e)
     {
-        new DetailForm(rtb_json).ShowDialog();
+        ShowJsonDetail();
     }
 
     private void listView1_DoubleClick(object sender, EventArgs e)
     {
-        new DetailForm(listView1).ShowDialog();
+        ShowListDetail();
     }
 
     private void btn_edit_Click(object sender, EventArgs e)
     {
+        if (listView1.SelectedItems.Count != 1) return;
         var selectedItem = listView1.SelectedItems[0];
         if (selectedItem.Tag is Detention dt)
         {
@@ -187,28 +198,31 @@ public partial class ListControl : UserControl
 
     private void copyDetailToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        if (listView1.SelectedItems.Count <= 0) return;
+        if (listView1.SelectedItems.Count <= 0)
+        {
+            Clipboard.SetText(
+                string.Join("\n\n", listView1.Items.Cast<ListViewItem>().Select(item => (item.Tag as Detention)?.ToString() ?? ""))
+                );
+            return;
+        }
         if (listView1.SelectedItems.Count == 1 && listView1.SelectedItems[0].Tag is Detention dt)
         {
             Clipboard.SetText(dt.ToString());
             return;
         }
-        // connect listView1.SelectedItems.Cast<ListViewItem>().Select(item => (item.Tag as Detention).ToString()) to a string
-        var sb = new StringBuilder();
-        foreach (var item in listView1.SelectedItems.Cast<ListViewItem>())
-        {
-            if (item.Tag is Detention det)
-            {
-                sb.AppendLine(det.ToString());
-                sb.AppendLine();
-            }
-        }
-        Clipboard.SetText(sb.ToString());
+        // connect to a string
+        Clipboard.SetText(
+            string.Join("\n\n", listView1.SelectedItems.Cast<ListViewItem>().Select(item => (item.Tag as Detention)?.ToString() ?? ""))
+            );
     }
 
     private void copyAsJsonToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        if (listView1.SelectedItems.Count <= 0) return;
+        if (listView1.SelectedItems.Count <= 0)
+        {
+            Clipboard.SetText(rtb_json.Text);
+            return;
+        }
         if (listView1.SelectedItems.Count == 1 && listView1.SelectedItems[0].Tag is Detention dt)
         {
             Clipboard.SetText(Detention.DetentionToJson(dt));
@@ -217,5 +231,28 @@ public partial class ListControl : UserControl
 
         Detention[] detentions = listView1.SelectedItems.Cast<ListViewItem>().Select(item => (item.Tag as Detention) ?? new Detention()).ToArray();
         Clipboard.SetText(Detention.DetentionsToJson(detentions));
+    }
+
+    public void ShowListDetail()
+    {
+        new DetailForm(listView1).ShowDialog();
+    }
+
+    public void ShowJsonDetail()
+    {
+        new DetailForm(rtb_json).ShowDialog();
+    }
+
+    private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
+    {
+        var listView = sender as ListView;
+        if (e.Column == lvwColumnSorter.SortColumn)
+            lvwColumnSorter.Order = (lvwColumnSorter.Order == SortOrder.Ascending) ? SortOrder.Descending : SortOrder.Ascending;
+        else
+        {
+            lvwColumnSorter.SortColumn = e.Column;
+            lvwColumnSorter.Order = SortOrder.Ascending;
+        }
+        listView?.Sort();
     }
 }

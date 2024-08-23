@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 namespace DetentionSystem.Classes;
@@ -45,7 +40,7 @@ public static class DetentionAPI
         {
             get; set;
         }
-        [DisplayName("Week Mark"), Category("Date & Time")]
+        [DisplayName("Week Mark"), Category("Date && Time")]
         [Description("Week mark of the detentions. " +
             "For example: 'week18' ; 'week19需服务'. " +
             "Warning: Combined week mark may appear: week8和week9")]
@@ -146,7 +141,7 @@ public static class DetentionAPI
         return false;
     }
 
-        public static Detention[] LoadDetentionsFromJson(string json, Filter filters, Action<int> setCurrentProgressMax, Action<int> setCurrentProgress)
+    public static Detention[] LoadDetentionsFromJson(string json, Filter filters, Action<int> setCurrentProgressMax, Action<int> setCurrentProgress)
     {
         List<Detention> dts = [];
         var detentions = Detention.JsonToDetentions(json);

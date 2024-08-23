@@ -85,7 +85,7 @@ public partial class QueryControl : UserControl
 
     private void btn_query_Click(object sender, EventArgs e)
     {
-        OnQuery?.Invoke(this, new QueryEventArgs(GetIds(), Filter, tb_query.Text.Trim()));
+        Query();
     }
     private void btn_filters_Click(object sender, EventArgs e)
     {
@@ -101,4 +101,9 @@ public partial class QueryControl : UserControl
     }
 
     public void Query() => OnQuery?.Invoke(this, new QueryEventArgs(GetIds(), Filter, tb_query.Text.Trim()));
+
+    private void tb_query_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (e.KeyChar == '\r') Query();
+    }
 }
