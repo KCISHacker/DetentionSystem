@@ -28,13 +28,16 @@ partial class DetailForm
     /// </summary>
     private void InitializeComponent()
     {
+        var resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailForm));
         SuspendLayout();
         // 
         // DetailForm
         // 
-        AutoScaleDimensions = new SizeF(8F, 20F);
+        AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(502, 307);
+        ClientSize = new Size(628, 384);
+        Icon = (Icon)resources.GetObject("$this.Icon");
+        Margin = new Padding(4, 4, 4, 4);
         Name = "DetailForm";
         ShowIcon = false;
         StartPosition = FormStartPosition.CenterParent;

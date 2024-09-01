@@ -28,6 +28,7 @@ partial class MainForm
     /// </summary>
     private void InitializeComponent()
     {
+        var resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
         menuStrip1 = new MenuStrip();
         fileToolStripMenuItem = new ToolStripMenuItem();
         saveAsJsonToolStripMenuItem = new ToolStripMenuItem();
@@ -202,6 +203,7 @@ partial class MainForm
         // 
         loadingBarControl1.CurrentProgress = 0;
         loadingBarControl1.Dock = DockStyle.Fill;
+        loadingBarControl1.HideMoreSection = true;
         loadingBarControl1.info_text = "Doing Jobs";
         loadingBarControl1.Location = new Point(0, 37);
         loadingBarControl1.Margin = new Padding(4, 5, 4, 5);
@@ -386,6 +388,7 @@ partial class MainForm
         Controls.Add(tableLayoutPanel1);
         Controls.Add(loadingBarControl1);
         Controls.Add(menuStrip1);
+        Icon = (Icon)resources.GetObject("$this.Icon");
         MainMenuStrip = menuStrip1;
         Margin = new Padding(4, 5, 4, 5);
         Name = "MainForm";

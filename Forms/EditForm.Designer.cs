@@ -28,6 +28,7 @@ partial class EditForm
     /// </summary>
     private void InitializeComponent()
     {
+        var resources = new System.ComponentModel.ComponentResourceManager(typeof(EditForm));
         propertyGrid1 = new PropertyGrid();
         tableLayoutPanel1 = new TableLayoutPanel();
         tableLayoutPanel2 = new TableLayoutPanel();
@@ -126,6 +127,7 @@ partial class EditForm
         CancelButton = btn_cancel;
         ClientSize = new Size(621, 430);
         Controls.Add(tableLayoutPanel1);
+        Icon = (Icon)resources.GetObject("$this.Icon");
         Margin = new Padding(4);
         Name = "EditForm";
         ShowIcon = false;

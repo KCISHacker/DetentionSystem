@@ -28,6 +28,7 @@ partial class FilterForm
     /// </summary>
     private void InitializeComponent()
     {
+        var resources = new System.ComponentModel.ComponentResourceManager(typeof(FilterForm));
         tableLayoutPanel1 = new TableLayoutPanel();
         tableLayoutPanel2 = new TableLayoutPanel();
         btn_apply = new Button();
@@ -47,7 +48,7 @@ partial class FilterForm
         tableLayoutPanel1.Controls.Add(propertyGrid1, 0, 0);
         tableLayoutPanel1.Dock = DockStyle.Fill;
         tableLayoutPanel1.Location = new Point(0, 0);
-        tableLayoutPanel1.Margin = new Padding(4, 4, 4, 4);
+        tableLayoutPanel1.Margin = new Padding(4);
         tableLayoutPanel1.Name = "tableLayoutPanel1";
         tableLayoutPanel1.RowCount = 2;
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -68,7 +69,7 @@ partial class FilterForm
         tableLayoutPanel2.Controls.Add(btn_clear, 2, 0);
         tableLayoutPanel2.Dock = DockStyle.Fill;
         tableLayoutPanel2.Location = new Point(4, 364);
-        tableLayoutPanel2.Margin = new Padding(4, 4, 4, 4);
+        tableLayoutPanel2.Margin = new Padding(4);
         tableLayoutPanel2.Name = "tableLayoutPanel2";
         tableLayoutPanel2.RowCount = 1;
         tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -79,7 +80,7 @@ partial class FilterForm
         // 
         btn_apply.Dock = DockStyle.Fill;
         btn_apply.Location = new Point(4, 4);
-        btn_apply.Margin = new Padding(4, 4, 4, 4);
+        btn_apply.Margin = new Padding(4);
         btn_apply.Name = "btn_apply";
         btn_apply.Size = new Size(109, 46);
         btn_apply.TabIndex = 0;
@@ -105,7 +106,7 @@ partial class FilterForm
         // 
         btn_discard.Dock = DockStyle.Fill;
         btn_discard.Location = new Point(121, 4);
-        btn_discard.Margin = new Padding(4, 4, 4, 4);
+        btn_discard.Margin = new Padding(4);
         btn_discard.Name = "btn_discard";
         btn_discard.Size = new Size(109, 46);
         btn_discard.TabIndex = 2;
@@ -117,7 +118,7 @@ partial class FilterForm
         // 
         btn_clear.Dock = DockStyle.Fill;
         btn_clear.Location = new Point(238, 4);
-        btn_clear.Margin = new Padding(4, 4, 4, 4);
+        btn_clear.Margin = new Padding(4);
         btn_clear.Name = "btn_clear";
         btn_clear.Size = new Size(109, 46);
         btn_clear.TabIndex = 3;
@@ -129,7 +130,7 @@ partial class FilterForm
         // 
         propertyGrid1.Dock = DockStyle.Fill;
         propertyGrid1.Location = new Point(4, 4);
-        propertyGrid1.Margin = new Padding(4, 4, 4, 4);
+        propertyGrid1.Margin = new Padding(4);
         propertyGrid1.Name = "propertyGrid1";
         propertyGrid1.Size = new Size(542, 352);
         propertyGrid1.TabIndex = 2;
@@ -142,7 +143,8 @@ partial class FilterForm
         CancelButton = btn_discard;
         ClientSize = new Size(550, 422);
         Controls.Add(tableLayoutPanel1);
-        Margin = new Padding(4, 4, 4, 4);
+        Icon = (Icon)resources.GetObject("$this.Icon");
+        Margin = new Padding(4);
         Name = "FilterForm";
         ShowIcon = false;
         StartPosition = FormStartPosition.CenterParent;

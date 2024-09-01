@@ -28,43 +28,16 @@ partial class AddCompForm
     /// </summary>
     private void InitializeComponent()
     {
-        queryControl1 = new QueryControl();
-        loadingBarControl1 = new LoadingBarControl();
+        var resources = new System.ComponentModel.ComponentResourceManager(typeof(AddCompForm));
         SuspendLayout();
-        // 
-        // queryControl1
-        // 
-        queryControl1.Dock = DockStyle.Fill;
-        queryControl1.Location = new Point(0, 0);
-        queryControl1.Margin = new Padding(4, 5, 4, 5);
-        queryControl1.Name = "queryControl1";
-        queryControl1.Size = new Size(497, 105);
-        queryControl1.TabIndex = 0;
-        queryControl1.OnQuery += queryControl1_OnQuery;
-        // 
-        // loadingBarControl1
-        // 
-        loadingBarControl1.CurrentProgress = 0;
-        loadingBarControl1.Dock = DockStyle.Fill;
-        loadingBarControl1.HideMoreSection = true;
-        loadingBarControl1.info_text = "Doing Jobs";
-        loadingBarControl1.Location = new Point(0, 0);
-        loadingBarControl1.Margin = new Padding(4, 5, 4, 5);
-        loadingBarControl1.MaxCurrentProgress = 100;
-        loadingBarControl1.MaxOverallProgress = 100;
-        loadingBarControl1.Name = "loadingBarControl1";
-        loadingBarControl1.OverallProgress = 0;
-        loadingBarControl1.Size = new Size(497, 105);
-        loadingBarControl1.TabIndex = 1;
         // 
         // AddCompForm
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(497, 105);
-        Controls.Add(queryControl1);
-        Controls.Add(loadingBarControl1);
         FormBorderStyle = FormBorderStyle.Fixed3D;
+        Icon = (Icon)resources.GetObject("$this.Icon");
         Name = "AddCompForm";
         ShowIcon = false;
         StartPosition = FormStartPosition.CenterParent;
