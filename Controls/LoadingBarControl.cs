@@ -42,6 +42,12 @@ public partial class LoadingBarControl : UserControl
             $"{(int)(100.0 * _overall_progress / MaxOverallProgress)}%";
     }
 
+    public bool HideMoreSection
+    {
+        get => checkbox_details.Visible;
+        set => checkbox_details.Visible = value;
+    }
+
     void UpdateProgressBar2()
     {
         progressbar2_description.Text =

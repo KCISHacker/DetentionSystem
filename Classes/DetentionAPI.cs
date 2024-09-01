@@ -85,10 +85,10 @@ public static class DetentionAPI
         var overallProgress = 0;
         var startingDate = filters.StartingDate?.ToString("yyyyMMdd") ?? "";
         var endingDate = filters.EndingDate?.ToString("yyyyMMdd") ?? "";
-        var global_args = $"&strKeyWord1={startingDate}&strKeyWord2={endingDate}&strBatchRemark=&strDetentionType=";
+        var global_args = $"?strKeyWord0={startingDate}&strKeyWord1={endingDate}&strBatchRemark=&strDetentionType=";
         foreach (var id in ids)
         {
-            if (!Program.KCISAPI.GetAPI($"/DSAI/Detention/Detention_List?strKeyWord0={id}" + global_args, out var json))
+            if (!Program.KCISAPI.GetAPI($"/DSAI/Detention/Detention_List" + global_args + $"&strKeyWord2={id}", out var json))
             {
                 MessageBox.Show($"Internet error occurred when getting {id}, cannot get data!\nCheck your internet connection and try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return [];
@@ -178,4 +178,5 @@ public static class DetentionAPI
         if (value == null) return true;
         return !Regex.IsMatch(value, filter);
     }
+
 }

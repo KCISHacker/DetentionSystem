@@ -75,6 +75,8 @@ public partial class FilterForm : Form
             DoneTimes = tb_donetimes.Text,
             UndoneTimes = tb_undonetimes.Text
         };*/
+        if (propertyGrid1.SelectedObject is DetentionAPI.Filter filter)
+            Filter = filter;
         DialogResult = DialogResult.OK;
     }
 

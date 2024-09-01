@@ -14,11 +14,11 @@ public class ListViewColumnSorter : IComparer
         objectCompare = new CaseInsensitiveComparer();
     }
 
-    public int Compare(object x, object y)
+    public int Compare(object? x, object? y)
     {
         int compareResult;
-        var listViewX = (ListViewItem)x;
-        var listViewY = (ListViewItem)y;
+        var listViewX = (ListViewItem)(x ?? new object());
+        var listViewY = (ListViewItem)(x ?? new object());
 
         compareResult = objectCompare.Compare(listViewX.SubItems[columnToSort].Text, listViewY.SubItems[columnToSort].Text);
 
